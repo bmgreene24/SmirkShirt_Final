@@ -41,7 +41,7 @@ class LineItemsController < ApplicationController
   # POST /line_items.xml
   def create
     @cart = current_cart
-    product = Product.find(params[:product_it])
+    product = Product.find(params[:product_id])
     @line_item = @cart.add_product (product)
 
     respond_to do |format|
