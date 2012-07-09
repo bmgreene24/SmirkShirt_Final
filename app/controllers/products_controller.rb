@@ -62,6 +62,10 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
+        @product.name = params[:name]
+        @product.description = params[:description]
+        @product.price = params[:price]
+        @product.update
         format.html { redirect_to(@product, :notice => 'Product was successfully updated.') }
         format.xml  { head :ok }
       else
