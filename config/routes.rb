@@ -1,4 +1,6 @@
 Smirkshirt::Application.routes.draw do
+  resources :orders
+
   resources :line_items
 
   resources :carts
@@ -13,7 +15,13 @@ Smirkshirt::Application.routes.draw do
   resources :users
   resources :sessions
 
+  match '/your_cart' => "carts#your_cart", :as => "your_cart"
+  match '/login' => "sessions#new", :as => "login"
+  match '/logout' => "sessions#destroy", :as => "logout"
 
+  root :to => "welcome", :action => "home"
+
+end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -64,13 +72,9 @@ Smirkshirt::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  match '/your_cart' => "carts#your_cart", :as => "your_cart"
-  match '/login' => "sessions#new", :as => "login"
-  match '/logout' => "sessions#destroy", :as => "logout"
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
-end

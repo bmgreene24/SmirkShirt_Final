@@ -1,4 +1,4 @@
-body { background-color: #fff; color: #333; }
+body { background-color: #adff2f; color: #333; }
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -54,3 +54,36 @@ div.field, div.actions {
   font-size: 12px;
   list-style: square;
 }
+
+.depot_form fieldset {
+    background: #efe;
+    }
+
+.depot_form legend {
+    color: #dfd;
+    background: #0000bb;
+    font-family: sans-serif;
+    padding: 0.2em 1em;
+}
+
+.depot_form label {
+    width: 5em;
+    float: left;
+    text-align: right;
+    padding-top: 0.2em;
+    margin-right: 0.1em;
+    display: block;
+}
+
+.depot_form select, .depot_form textarea, .depot_form input {
+    margin-left: 0.5em;
+}
+
+.depot_form .submit {
+    margin-left: 4em;
+}
+
+.depot_form div {
+    margin: 0.5em 0;
+}
+
