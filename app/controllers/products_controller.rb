@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.search(params[:search_query])
+    @current_cart = current_cart
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,6 +17,7 @@ class ProductsController < ApplicationController
   # GET /products/1.xml
   def show
     @product = Product.find(params[:id])
+    @current_cart = current_cart
 
     respond_to do |format|
       format.html # show.html.erb
@@ -42,6 +44,7 @@ class ProductsController < ApplicationController
   # POST /products
   # POST /products.xml
   def create
+    return unless current_user.admin
     @product = current_user.products.new(params[:product])
 
     respond_to do |format|
@@ -58,6 +61,7 @@ class ProductsController < ApplicationController
   # PUT /products/1
   # PUT /products/1.xml
   def update
+    return unless current_user.admin
     @product = Product.find(params[:id])
 
     respond_to do |format|

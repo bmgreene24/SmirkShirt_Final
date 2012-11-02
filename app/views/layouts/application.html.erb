@@ -3,32 +3,71 @@
 <html>
 <head>
   <title>Smirkshirt</title>
-  <%= stylesheet_link_tag :all %>
+  <link rel="stylesheet" href="http://railsgirls.com/assets/bootstrap.css">
+  <%= stylesheet_link_tag "bootstrap" %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
 <body style="background: #eeeed4;">
 
-<%= image_tag("logo.png", :alt => "logo") %><br />
-| <%= link_to "Shop", products_path %> |
-<%= link_to "Leave Site", :controller => "welcome", :action => "thank_you" %> |
-<%= link_to "Register", :controller => "welcome", :action => "register" %> |
-<%= link_to "Home", :controller => "welcome", :action => "home" %> |
-<%= link_to "Your Cart", :controller => "carts", :action => "your_cart" %> |
+<div class="navbar navbar-fixed-top">
+  <div class="logo">
+    <%= image_tag("logoblkbgsml.png", :alt => "logo") %>
+  </div>
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="/"><br/>Smirkshirt</a>
+      <br/><ul class="nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li class="active"><a href="/products">Shop</a></li>
+        <li class="active"><a href="/welcome/register">Register</a></li>
 
-
-
-<div id='header'>
-  <% if logged_in? %>
-      <%= current_user.email %> |
-      <%= link_to 'Logout', logout_path %> |
-      <%= link_to "Create User", new_user_path %> |
-  <% else %>
-      <%= link_to "Login", login_path %> |
-  <% end %>
+        <li class="active"><a href="/your_cart">Shopping Basket</a></li>
+      </ul>
+     </div>
+    <div class="container">
+      <ul class="nav">
+        <li class="active">
+          <% if logged_in? %>
+              <li class="active"><%= current_user.email %></li>
+            <li class="active"><%= link_to 'Account details', current_user %></li>
+              <li class="active"><%= link_to 'Logout', logout_path %></li>
+          <% else %>
+              <a href="/login">Login</a></li>
+          <% end %>
+        <% if current_user.try(:admin?) %>
+            <li class="active"><%= link_to "Create User", new_user_path %></li>
+            <li class="active"><%= link_to "Users details", users_path %></li>
+        <% end %>
+      </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
-<%= yield %>
+
+
+
+<div id="columns">
+<div class="pull-right">
+  <div class="container-fluid">
+  <% if logged_in? and @current_cart != nil %>
+    <%= render @current_cart %>
+  <% end %>
+  </div>
+</div>
+<div class="container">
+  <%= yield %>
+</div>
+</div>
+
+
+<footer>
+  <div class="container">
+    Smirk;)Shirt 2012
+  </div>
+</footer>
+
 
 
 </body>

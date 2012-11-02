@@ -80,7 +80,7 @@ class CartsController < ApplicationController
     @cart.destroy
 
     respond_to do |format|
-      format.html { redirect_to(carts_url) }
+      format.html { redirect_to(products_url) }
       format.xml  { head :ok }
     end
   end

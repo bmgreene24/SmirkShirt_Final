@@ -2,6 +2,10 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.xml
   def index
+    unless current_user.admin
+      redirect_to(root_url)
+      return
+    end
     @orders = Order.all
 
     respond_to do |format|
@@ -14,6 +18,10 @@ class OrdersController < ApplicationController
   # GET /orders/1.xml
   def show
     @order = Order.find(params[:id])
+    unless ((@order.user_id == current_user.id) or current_user.admin)
+      redirect_to(root_url)
+      return
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,7 +33,7 @@ class OrdersController < ApplicationController
   # GET /orders/new.xml
   def new
     if current_cart.line_items.empty?
-      redirect_to store_url, :notice => "Your cart is empty"
+      redirect_to products_url, :notice => "Your cart is empty"
       return
     end
 
@@ -41,19 +49,24 @@ class OrdersController < ApplicationController
   # GET /orders/1/edit
   def edit
     @order = Order.find(params[:id])
+    unless (@order.user.id == current_user.id) or current_user.admin
+      redirect_to(root_url)
+      return
+    end
   end
 
   # POST /orders
   # POST /orders.xml
   def create
     @order = Order.new(params[:order])
+    @order.user = current_user
     @order.add_line_items_from_cart(current_cart)
 
     respond_to do |format|
       if @order.save
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
-        format.html { redirect_to(store_url, :notice => 'Thank you for your order.') }
+        format.html { redirect_to(products_url, :notice => 'Thank you for your order.') }
         format.xml  { render :xml => @order, :status => :created, :location => @order }
       else
         format.html { render :action => "new" }
@@ -61,8 +74,6 @@ class OrdersController < ApplicationController
       end
     end
   end
-
-
 
   # PUT /orders/1
   # PUT /orders/1.xml
